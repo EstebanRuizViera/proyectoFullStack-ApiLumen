@@ -25,16 +25,14 @@ $router->get('/airports', function () use ($router) {
     }
 });
 
-$router->group(['prefix' => 'api'], function () use ($router) {
-
-    // Matches "/api/register
-   $router->post('register', 'AuthController@register');
+// Matches "/api/register
+$router->post('register', 'AuthController@register');
    // Matches "/api/login
-  $router->post('login', 'AuthController@login');
+$router->post('login', 'AuthController@login');
 
+$router->group(['prefix' => 'api','middleware' => 'auth'], function () use ($router) {
+    
     //TABLA AIRPORT
-
-    $router->get('airports',  ['uses' => 'AirportController@showAllAirport']);
   
     $router->get('airport/{id}', ['uses' => 'AirportController@showOneAirport']);
   
@@ -46,7 +44,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     //TABLA FLIGHT
 
-    $router->get('flights',  ['uses' => 'FlightController@showAllFlight']);
+    
   
     $router->get('flight/{id}', ['uses' => 'FlightController@showOneFlight']);
   
@@ -58,7 +56,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     //TABLA PLANE
 
-    $router->get('planes',  ['uses' => 'PlaneController@showAllPlane']);
+    
   
     $router->get('plane/{id}', ['uses' => 'PlaneController@showOnePlane']);
   
@@ -70,7 +68,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     //TABLA USER
 
-    $router->get('users',  ['uses' => 'UserController@showAllUser']);
+    
   
     $router->get('user/{id}', ['uses' => 'UserController@showOneUser']);
   
@@ -81,3 +79,13 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->put('user/{id}', ['uses' => 'UserController@update']);
 });
 
+$router->group(['prefix' => 'api/all'], function () use ($router) {
+
+    $router->get('airports',  ['uses' => 'AirportController@showAllAirport']);
+
+    $router->get('flights',  ['uses' => 'FlightController@showAllFlight']);
+
+    $router->get('planes',  ['uses' => 'PlaneController@showAllPlane']);
+
+    $router->get('users',  ['uses' => 'UserController@showAllUser']);
+});

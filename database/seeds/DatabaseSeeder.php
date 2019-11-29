@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,13 +12,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call('UsersTableSeeder');
-        DB::table('users')->insert([
-            'name' => 'admin',
-            'lastname' => 'admin',
-            'dni' => '0000',
-            'email' => 'admin@admin.com',
-            'password' => base64_encode('1234'),
-        ]);
+        try {
+
+            $user = new User;
+            $user->name = 'admin';
+            $user->lastname = 'admin';
+            $user->dni = '0000';
+            $user->email = 'admin@admin.com';
+            $user->password = app('hash')->make('1234');
+            $user->role = 'ADMIN';
+            $user->save();
+
+            //return successful response
+            return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
+
+        } catch (\Exception $e) {
+            //return error message
+            return response()->json(['message' => 'User Registration Failed!'], 409);
+        }
     }
 }

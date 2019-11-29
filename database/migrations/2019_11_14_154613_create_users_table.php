@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->integer('phone')->nullable();
             $table->string('email');
             $table->string('password');
+            $table->string('role')->default('USER');
             $table->timestamps();
         });
     }
