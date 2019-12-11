@@ -52,6 +52,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     public function flights(){
-        return $this->belongsToMany('App\Flight')->withTimestamp();
+        return $this->belongsToMany('App\Flight')
+        ->withPivot('departure_date','arrival_date')
+        ->withTimestamp();
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Airport;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,11 @@ use App\Airport;
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
+});
+
+$router->get('/asdf', function () use ($router) {
+    $user=User::find(1);
+    $user->flight()->attach(1, ['departure_date' => 10/10/20, 'arrival_date' => 11/11/20]);
 });
 
 $router->get('/airports', function () use ($router) {
@@ -54,21 +60,8 @@ $router->group(['prefix' => 'api','middleware' => 'auth'], function () use ($rou
   
     $router->put('flight/{id}', ['uses' => 'FlightController@update']);
 
-    //TABLA PLANE
-
-    
-  
-    $router->get('plane/{id}', ['uses' => 'PlaneController@showOnePlane']);
-  
-    $router->post('plane', ['uses' => 'PlaneController@create']);
-  
-    $router->delete('plane/{id}', ['uses' => 'PlaneController@delete']);
-  
-    $router->put('plane/{id}', ['uses' => 'PlaneController@update']);
-
     //TABLA USER
 
-    
   
     $router->get('user/{id}', ['uses' => 'UserController@showOneUser']);
   
