@@ -19,7 +19,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email','role',
+        'name', 'email','role','lastname','dni','phone'
     ];
 
     /**
@@ -52,8 +52,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     public function flights(){
-        return $this->belongsToMany('App\Flight')
-        ->withPivot('departure_date','arrival_date')
-        ->withTimestamp();
+        return $this->belongsToMany('App\Flight','reservations','usuariosid','vuelosid')
+        ->withPivot('departure_date','arrival_date');
     }
 }

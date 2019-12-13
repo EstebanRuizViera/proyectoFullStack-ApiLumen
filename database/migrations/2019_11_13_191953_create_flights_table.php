@@ -20,7 +20,8 @@ class CreateFlightsTable extends Migration
             $table->timestamps();
         });
         Schema::table('flights', function($table){
-            $table->foreign('airport_id')->references('id')->on('airports');
+            $table->foreign('airport_id')->references('id')->on('airports')->onDelete('cascade')->onUpdate('cascade');
+            
         });
     }
 

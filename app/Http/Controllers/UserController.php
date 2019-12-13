@@ -68,6 +68,12 @@ class UserController extends Controller
         return response()->json(User::find($id));
     }
 
+    public function showOneUserWithEmail(Request $request)
+    {
+        $user=User::select('id')->where('email',$request->email);
+        return response()->json($user->get('id')->get(0));
+    }
+
     public function create(Request $request)
     {
         $user= User::create($request->all());

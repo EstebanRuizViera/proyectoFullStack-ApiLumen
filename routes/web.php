@@ -1,6 +1,7 @@
 <?php
 
 use App\Airport;
+use App\Flight;
 use App\User;
 
 /*
@@ -18,9 +19,22 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/asdf', function () use ($router) {
-    $user=User::find(1);
-    $user->flight()->attach(1, ['departure_date' => 10/10/20, 'arrival_date' => 11/11/20]);
+$router->get('/create_reservations/{id_user}/{id_vuelo}', function ($id_user,$id_vuelo) use ($router) {
+    $user = User::find($id_user);
+    $user->flights()->attach($id_vuelo,['departure_date'=>'2019-01-01','arrival_date'=>'2019-01-02']);
+    echo "guardado";
+});
+
+$router->get('/select_reservations/{id_user}', function ($id_user) use ($router) {
+    $user = User::find($id_user);
+    foreach($user->flights as $flight){
+        echo ("fecha de ida: ".$flight->pivot->departure_date." idvuelo: ".$flight->pivot->vuelosid."</br>");
+    }
+});
+
+$router->get('/delete_reservations/{id_user}', function ($id_user) use ($router) {
+    $user = User::find($id_user);
+    $user->flights()->detach();
 });
 
 $router->get('/airports', function () use ($router) {
@@ -31,10 +45,18 @@ $router->get('/airports', function () use ($router) {
     }
 });
 
-// Matches "/api/register
-$router->post('register', 'AuthController@register');
-   // Matches "/api/login
-$router->post('login', 'AuthController@login');
+$router->group (['prefix' => 'api/auth'], function () use ($router) {
+
+    $router->post('register', 'AuthController@register');
+
+    $router->post('login', 'AuthController@login');
+
+    $router->get('airport/{name}', ['uses' => 'AirportController@selectAirportForName']);
+
+    $router->post('user', ['uses' => 'UserController@showOneUserWithEmail']);
+    
+});
+
 
 $router->group(['prefix' => 'api','middleware' => 'auth'], function () use ($router) {
     
