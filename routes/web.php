@@ -22,14 +22,30 @@ $router->get('/', function () use ($router) {
 $router->get('/create_reservations/{id_user}/{id_vuelo}', function ($id_user,$id_vuelo) use ($router) {
     $user = User::find($id_user);
     $user->flights()->attach($id_vuelo,['departure_date'=>'2019-01-01','arrival_date'=>'2019-01-02']);
-    echo "guardado";
+    echo json_encode("guardado");
 });
 
 $router->get('/select_reservations/{id_user}', function ($id_user) use ($router) {
     $user = User::find($id_user);
+    $array = array();
+    $number=0;
     foreach($user->flights as $flight){
-        echo ("fecha de ida: ".$flight->pivot->departure_date." idvuelo: ".$flight->pivot->vuelosid."</br>");
+        $array[$number]=array('origen'=>$flight->airport->city,'destino'=>$flight->flight_destination,'fecha de salida'=>$flight->pivot->departure_date,'fecha de llegada'=>$flight->pivot->arrival_date);
+        $number++;
     }
+    echo json_encode($array);
+});
+
+$router->get('/select_flight/{id}', function ($id) use ($router) {
+    $airport = Airport::find($id);
+    $array = array();
+    $number=0;
+    foreach($airport->flight as $flight){
+        $array[$number]=array('destino'=>$flight->flight_destination,'id_vuelo'=>$flight->id);
+        $number++;
+    }
+    
+    echo json_encode($array);
 });
 
 $router->get('/delete_reservations/{id_user}', function ($id_user) use ($router) {

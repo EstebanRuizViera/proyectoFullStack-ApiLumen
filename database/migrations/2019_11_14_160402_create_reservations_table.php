@@ -21,8 +21,8 @@ class CreateReservationsTable extends Migration
             
         });
         Schema::table('reservations', function($table){
-            $table->foreign('vuelosid')->references('id')->on('flights');
-            $table->foreign('usuariosid')->references('id')->on('users');
+            $table->foreign('vuelosid')->references('id')->on('flights')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('usuariosid')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

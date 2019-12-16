@@ -92,7 +92,7 @@ class UserController extends Controller
     public function delete($id)
     {
         User::findOrFail($id)->delete();
-        return response('Deleted Successfully', 200);
+        return response('Borrado realizado con exito', 200);
     }
 
     
