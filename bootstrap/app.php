@@ -46,6 +46,14 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+
+$app->singleton('jasperphp', function ($app) {
+    return new JasperPHP;
+});
+// class_alias(JasperPHP\JasperPHPServiceProvider::class,'JasperPHP');
+$app->alias('JasperPHP\JasperPHPServiceProvider\JasperPHP', 'JasperPHP');
+
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -77,12 +85,17 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+
+
+$app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
 
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
+$app->register(JasperPHP\JasperPHPServiceProvider::class);
+
+$app->register(\SocialiteProviders\Manager\ServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

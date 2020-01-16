@@ -3,6 +3,7 @@
 use App\Airport;
 use App\Flight;
 use App\User;
+use JasperPHP\JasperPHP as JasperPHP;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,10 @@ use App\User;
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->get('/generatereport', ['uses' => 'ReportController@generateReport']);
+
+$router->get('/report', ['uses' => 'ReportController@report']);
 
 $router->get('/create_reservations/{id_user}/{id_vuelo}', function ($id_user,$id_vuelo) use ($router) {
     $user = User::find($id_user);

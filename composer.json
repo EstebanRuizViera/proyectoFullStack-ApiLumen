@@ -6,7 +6,9 @@
     "type": "project",
     "require": {
         "php": "^7.2",
+        "cossou/jasperphp": "^2.8",
         "laravel/lumen-framework": "^6.0",
+        "socialiteproviders/line": "^2.1",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
